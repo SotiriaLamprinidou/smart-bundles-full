@@ -803,12 +803,17 @@ import matplotlib.pyplot as plt
 
 top_plot = aov_bundles.sort_values(by='Forecasted Revenue (€)', ascending=False).head(5)
 
-plt.figure(figsize=(12, 6))
+# 🔧 Μεγαλύτερο διάγραμμα, μικρότερες γραμματοσειρές
+plt.figure(figsize=(10, 4))  # πιο πλατύ αλλά όχι πολύ ψηλό
+
 plt.bar(top_plot['Suggested Bundle Title'], top_plot['Forecasted Revenue (€)'])
-plt.title("Top 5 Bundles with >15% AOV Boost (Next 2 Weeks)")
-plt.ylabel("Forecasted Revenue (€)")
-plt.xticks(rotation=45, ha='right')
-plt.grid(axis='y', linestyle='--', alpha=0.6)
+
+plt.title("Top 5 Bundles with >15% AOV Boost (Next 2 Weeks)", fontsize=12)
+plt.ylabel("Forecasted Revenue (€)", fontsize=10)
+plt.xticks(rotation=45, ha='right', fontsize=9)
+plt.yticks(fontsize=9)
+
+plt.grid(axis='y', linestyle='--', alpha=0.5)
 plt.tight_layout()
 plt.show()
 
