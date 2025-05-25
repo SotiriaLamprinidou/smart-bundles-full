@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import './IdealMatchBundles.css';
+import GeminiChatbot from "./GeminiChatbot";
 
 export default function IdealMatchBundles({ items, onClose, onComplete, addToCart }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -20,18 +21,24 @@ export default function IdealMatchBundles({ items, onClose, onComplete, addToCar
     );
   }
 
-  if (currentIndex >= items.length) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center p-6 z-50 text-center">
-        <div className="bg-white p-8 rounded-xl max-w-md w-full">
-          <h2 className="text-xl font-semibold mb-4">
-            {acceptedItems.length > 0 ? "Selected Items Saved!" : "No Items Selected"}
-          </h2>
-          <button onClick={onClose} className="btn-primary">Continue</button>
+ if (currentIndex >= items.length) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center p-6 z-50 text-center">
+      <div className="bg-white p-8 rounded-xl max-w-md w-full">
+        <h2 className="text-xl font-semibold mb-4">
+          {acceptedItems.length > 0 ? "Selected Items Saved!" : "No Items Selected"}
+        </h2>
+
+        {/* 👇 Here is the GeminiChatbot */}
+        <div className="my-4">
+          <GeminiChatbot cartItems={acceptedItems} addToCart={addToCart} />
         </div>
+        <button onClick={onClose} className="btn-primary mt-4">Continue</button>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   const card = items[currentIndex];
 
@@ -61,21 +68,16 @@ export default function IdealMatchBundles({ items, onClose, onComplete, addToCar
     const threshold = 100;
 
     if (dragOffset.x > threshold) {
-      // Swipe right = accept + show match overlay
       setAcceptedItems(prev => [...prev, card]);
       if (addToCart) addToCart(card);
-
       setShowMatch(true);
       setTimeout(() => {
         setShowMatch(false);
         goToNextCard();
-      }, 800);  // 1.5 seconds
-
+      }, 800);
     } else if (dragOffset.x < -threshold) {
-      // Swipe left = skip
       goToNextCard();
     } else {
-      // Not enough swipe, reset
       setDragOffset({ x: 0, y: 0 });
     }
   };
@@ -126,13 +128,12 @@ export default function IdealMatchBundles({ items, onClose, onComplete, addToCar
                 <li key={i} className="product-item">{product}</li>
               ))}
             </ul>
-            {card.description && <p className="text-gray-600 mb-4">{card.description}</p>}
           </div>
 
           <p className="card-price">
-            ${card.discountedPrice.toFixed(2)}
+            €{card.discountedPrice.toFixed(2)}
             {card.originalPrice && (
-              <span className="card-original-price">${card.originalPrice.toFixed(2)}</span>
+              <span className="card-original-price">€{card.originalPrice.toFixed(2)}</span>
             )}
           </p>
         </div>

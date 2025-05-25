@@ -9,35 +9,42 @@ export default function BundleCard({ bundle, onAdd }) {
         </div>
       )}
 
-      <div className="flex justify-center mb-4">
-        {bundle.icon}
-      </div>
+      {/* Εικονίδιο */}
+      <div className="flex justify-center mb-4">{bundle.icon}</div>
 
-      <h2 className="text-xl font-semibold mb-2 text-center text-primary">
+      {/* Τίτλος */}
+      <h2 className="text-xl font-semibold text-center text-primary mb-2">
         {bundle.name}
       </h2>
 
-      <p className="text-sm text-gray-600 mb-3 text-center">
-        <strong>Includes:</strong> {bundle.products.join(", ")}
-      </p>
+      {/* Includes section πάντα κάτω από τον τίτλο */}
+      <div className="text-sm text-gray-600 text-center mb-4">
+        <p className="font-semibold mb-1">Includes:</p>
+        <ul className="list-disc list-inside inline-block text-left">
+          {bundle.products.map((product, index) => (
+            <li key={index}>{product}</li>
+          ))}
+        </ul>
+      </div>
 
-      <div className="mb-4 text-center">
+      {/* Τιμές */}
+      <div className="text-center mb-4">
         <span className="text-gray-400 line-through mr-2">
-          ${bundle.originalPrice}
+          €{bundle.originalPrice.toFixed(2)}
         </span>
         <span className="text-accent font-bold">
-          ${bundle.discountedPrice}
+          €{bundle.discountedPrice.toFixed(2)}
         </span>
       </div>
 
+      {/* Κουμπί */}
       <div className="flex justify-center">
         <button
-  onClick={onAdd}
-  className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 text-white px-5 py-2 rounded-xl transition-all duration-200 shadow hover:shadow-lg"
->
-  Add to Cart
-</button>
-
+          onClick={onAdd}
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-600 text-white px-5 py-2 rounded-xl transition-all duration-200 shadow hover:shadow-lg"
+        >
+          Add to Cart
+        </button>
       </div>
     </div>
   );
